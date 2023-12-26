@@ -73,6 +73,22 @@ app.get('/info', (request, response) => {
   response.send(`<p>Phonebook has info for ${numberOfPeople} people</p><p>${date}</p>`);
 })
 
+const generateRandomId = () => {
+  return Math.ceil(Math.random() * 100);
+};
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body;
+  const newPerson = {
+    id: generateRandomId(),
+    name: body.name,
+    number: body.number,
+  }
+  people = people.concat(newPerson);
+  console.log(body, newPerson);
+  response.json(newPerson);
+})
+
 //lets refactor the POST!
 const generateId = (arr) => {
   const maxId = arr.length > 0 ? Math.max(...arr.map(n => n.id)) : 0

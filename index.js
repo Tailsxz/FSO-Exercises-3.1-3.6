@@ -79,10 +79,22 @@ const generateRandomId = () => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body;
+  const name = body.name;
+  const number = body.number;
+  if (!(body.name && body.number)) {
+    return response.status(400).json({
+      error: 'Name or number is missing...',
+    })
+  } else if (people.some(p => p.name === name)) {
+    return response.status(400).json({
+      error: 'Name must be unique...',
+    })
+  }
+
   const newPerson = {
     id: generateRandomId(),
-    name: body.name,
-    number: body.number,
+    name,
+    number,
   }
   people = people.concat(newPerson);
   console.log(body, newPerson);

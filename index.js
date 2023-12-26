@@ -49,6 +49,16 @@ app.get('/api/persons', (request, response) => {
   response.json(people);
 })
 
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id);
+  const person = people.find((person) => person.id === id);
+  if (person) {
+    response.json(person);
+  } else {
+    response.status(404).send('No person found');
+  }
+})
+
 app.get('/info', (request, response) => {
   const numberOfPeople = people.length;
   console.log(numberOfPeople);
@@ -57,8 +67,8 @@ app.get('/info', (request, response) => {
 })
 
 //lets refactor the POST!
-const generateId = () => {
-  const maxId = notes.length > 0 ? Math.max(...notes.map(n => n.id)) : 0
+const generateId = (arr) => {
+  const maxId = arr.length > 0 ? Math.max(...arr.map(n => n.id)) : 0
   return maxId + 1;
 }
 
@@ -75,7 +85,7 @@ app.post('/api/notes', (request, response) => {
   const note = {
     content: body.content,
     important: Boolean(body.important) || false,
-    id: generateId(),
+    id: generateId(notes),
   }
 
   notes = notes.concat(note);

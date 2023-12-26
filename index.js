@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded());
 
 let notes = [
   {
@@ -22,6 +21,33 @@ let notes = [
   }
 ]
 
+let people = [
+  { 
+    "id": 1,
+    "name": "Arto Hellas", 
+    "number": "040-123456"
+  },
+  { 
+    "id": 2,
+    "name": "Ada Lovelace", 
+    "number": "39-44-5323523"
+  },
+  { 
+    "id": 3,
+    "name": "Dan Abramov", 
+    "number": "12-43-234345"
+  },
+  { 
+    "id": 4,
+    "name": "Mary Poppendieck", 
+    "number": "39-23-6423122"
+  }
+]
+
+app.get('/api/persons', (request, response) => {
+  console.log(people)
+  response.json(people);
+})
 // const app = http.createServer((request, response) => {
 //   response.writeHead(200, { 'Content-Type': 'application/json' });
 //   response.end(JSON.stringify(notes));

@@ -48,24 +48,13 @@ app.get('/api/persons', (request, response) => {
   console.log(people)
   response.json(people);
 })
-// const app = http.createServer((request, response) => {
-//   response.writeHead(200, { 'Content-Type': 'application/json' });
-//   response.end(JSON.stringify(notes));
-// })
 
-// app.post('/api/notes', (request, response) => {
-//   // const note = request.body;
-//   // console.log(note);
-//   // response.json(note);
-//   const maxId = notes.length > 0 ? Math.max(...notes.map(n => n.id)) : 0;
-  
-//   const note = request.body
-//   note.id = maxId + 1;
-
-//   notes = notes.concat(note);
-
-//   response.json(note);
-// })
+app.get('/info', (request, response) => {
+  const numberOfPeople = people.length;
+  console.log(numberOfPeople);
+  let date = new Date();
+  response.send(`<p>Phonebook has info for ${numberOfPeople} people</p><p>${date}</p>`);
+})
 
 //lets refactor the POST!
 const generateId = () => {

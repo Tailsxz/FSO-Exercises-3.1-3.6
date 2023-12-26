@@ -1,0 +1,1 @@
+DELETE http://localhost:2277/api/persons/4

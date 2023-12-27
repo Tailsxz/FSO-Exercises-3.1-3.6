@@ -1,7 +1,19 @@
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
 
+//Creating our own middleware!
+const requestLogger = (request, response, next) => {
+  console.log('Method', request.method);
+  console.log('Method', request.path);
+  console.log('Method', request.body);
+  console.log('---');
+  next();
+}
+//Middleware 
+app.use(morgan('tiny'));
 app.use(express.json());
+app.use(requestLogger);
 
 let notes = [
   {
@@ -152,6 +164,12 @@ app.delete('/api/notes/:id', (request, response) => {
   
   response.status(204).end();
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' });
+};
+
+app.use(unknownEndpoint);
 
 const PORT = process.env.PORT || 2277;
 app.listen(PORT, () => {

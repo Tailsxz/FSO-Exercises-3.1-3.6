@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 
+//Lets create a new morgan token to be able to display the request body. this means that morgan must run after body-parser!
+morgan.token('data', (req, res) => JSON.stringify(req.body));
+
 //Creating our own middleware!
 const requestLogger = (request, response, next) => {
   console.log('Method', request.method);
@@ -11,9 +14,9 @@ const requestLogger = (request, response, next) => {
   next();
 }
 //Middleware 
-app.use(morgan('tiny'));
 app.use(express.json());
 app.use(requestLogger);
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'));
 
 let notes = [
   {
